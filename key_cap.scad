@@ -17,10 +17,12 @@ myZ = 10;
 
 eHeight = 1.5;
 
-module cap(myRadius, myX, myY, myZ) {
+capThickness = 2;
+
+module cap(myRadius, capThickness, myX, myY, myZ) {
     difference () {
         mySphere(myRadius, myX, myY, myZ);
-        translate([0,0,-2.5]) mySphere(myRadius, myX, myY, myZ);
+        translate([0,0, -capThickness]) mySphere(myRadius, myX, myY, myZ);
     }
 }
 
@@ -29,7 +31,7 @@ module clips(myRadius, eHeight, myX, myY, myZ) {
 }
 
 difference () {
-    cap(myRadius, myX, myY, myZ);
+    cap(myRadius, capThickness, myX, myY, myZ);
     translate([0,0, -1.5]) myEllipse(myRadius, eHeight, myX, myY, myZ);    
 }
 
