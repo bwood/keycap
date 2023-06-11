@@ -1,6 +1,6 @@
-module mySphere (radius, x, y, z) {
+module mySphere (x, y, z) {
     resize([x, y, z])
-    sphere(r = radius, $fn=20);
+    sphere(r = 1, $fn=20);
 }
 
 module myEllipse(height, x, y, z) {
@@ -11,6 +11,10 @@ module myEllipse(height, x, y, z) {
         circle(r = 1, $fn=20);
 }
 
+// Existing Keys
+dX = 24.28;
+dY = 11.20;
+dZ = 4.5;
 
 myRadius = 10;
 myX = 20;
@@ -21,9 +25,9 @@ eHeight = 1.5;
 
 capThickness = 2;
 
-module cap(myRadius, capThickness, myX, myY, myZ) {
+module cap(capThickness, myX, myY, myZ) {
     difference () {
-        mySphere(myRadius, myX, myY, myZ);
+        mySphere(myX, myY, myZ);
         translate([0,0, -capThickness]) mySphere(myRadius, myX, myY, myZ);
     }
 }
@@ -43,7 +47,7 @@ module clips(eHeight, myX, myY, myZ) {
 }
 
 difference () {
-    cap(myRadius, capThickness, myX, myY, myZ);
+    cap(capThickness, myX, myY, myZ);
     translate([0,0, -1.5]) myEllipse(eHeight, myX, myY, myZ);    
 }
 
