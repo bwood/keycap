@@ -1,12 +1,14 @@
 module mySphere (radius, x, y, z) {
     resize([x, y, z])
-    sphere(r = radius);
+    sphere(r = radius, $fn=20);
 }
 
-module myEllipse(radius, height, x, y, z) {
+module myEllipse(height, x, y, z) {
     linear_extrude(height = height, center = false, convexity = 10)
         resize([x, y, z])
-        circle(r = radius);
+        // since we are resizing, radius doesn't affect the size.
+        // to change the size use x, y, z.
+        circle(r = 1, $fn=20);
 }
 
 
@@ -26,16 +28,32 @@ module cap(myRadius, capThickness, myX, myY, myZ) {
     }
 }
 
-module clips(myRadius, eHeight, myX, myY, myZ) {
-    translate([0,0, -1.5]) myEllipse(myRadius, eHeight, myX, myY, myZ);    
+
+
+module clips(eHeight, myX, myY, myZ) {
+    translate([0,0, -1.5]) 
+    difference() {
+       myEllipse(eHeight, myX, myY, myZ);         
+       myEllipse(eHeight, myX - 2, myY - 2 , myZ);           
+    }
+    // TODO: This ring should become 4 posts:
+    // left: 2 "L" posts
+    // right: 2 posts with triangles on them for snap on.
+
 }
 
 difference () {
     cap(myRadius, capThickness, myX, myY, myZ);
-    translate([0,0, -1.5]) myEllipse(myRadius, eHeight, myX, myY, myZ);    
+    translate([0,0, -1.5]) myEllipse(eHeight, myX, myY, myZ);    
 }
 
-translate([0,0,-10]) clips(myRadius, eHeight, myX, myY, myZ);
+translate([0,0,-1]) clips(eHeight, myX, myY, myZ);
+
+// TODO: Add rotated (triangular?) sphere on top for ergo- adjustment.
+
+//TODO: Mark part with note name of key
+
+
 
 
 
