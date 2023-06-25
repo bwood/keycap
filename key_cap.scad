@@ -28,7 +28,7 @@ capThickness = 2;
 module cap(capThickness, myX, myY, myZ) {
     difference () {
         mySphere(myX, myY, myZ);
-        translate([0,0, -capThickness]) mySphere(myRadius, myX, myY, myZ);
+        translate([0,0, -capThickness]) mySphere(myX, myY, myZ);
     }
 }
 
@@ -46,6 +46,7 @@ module clips(eHeight, myX, myY, myZ) {
 
 }
 
+// Remove the negative z material from the cap
 difference () {
     cap(capThickness, myX, myY, myZ);
     translate([0,0, -1.5]) myEllipse(eHeight, myX, myY, myZ);    
