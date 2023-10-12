@@ -19,16 +19,25 @@ dZ = 4.5;
 myRadius = 10;
 myX = 20;
 myY = 10;
-myZ = 10;
+myZ = 20;
 
 eHeight = 1.5;
 
 capThickness = 2;
 
-module cap(capThickness, myX, myY, myZ) {
+module capNegZ(capThickness, myX, myY, myZ) {
+    // Hallow out the cap
     difference () {
         mySphere(myX, myY, myZ);
         translate([0,0, -capThickness]) mySphere(myX, myY, myZ);
+    }
+}
+
+module cap(capThickness, myX, myY, myZ, eHeight) {
+    // Remove the negative z material from the cap
+    difference() {
+        capNegZ(capThickness, myX, myY, myZ);
+         translate([0,0, -1.5]) myEllipse(eHeight, myX, myY, myZ);  
     }
 }
 
@@ -46,13 +55,11 @@ module clips(eHeight, myX, myY, myZ) {
 
 }
 
-// Remove the negative z material from the cap
-difference () {
-    cap(capThickness, myX, myY, myZ);
-    translate([0,0, -1.5]) myEllipse(eHeight, myX, myY, myZ);    
-}
 
-translate([0,0,-1]) clips(eHeight, myX, myY, myZ);
+rotate([-45, 0, 0])
+cap(capThickness, myX, myY, myZ, eHeight);
+
+//translate([0,0,-1]) clips(eHeight, myX, myY, myZ);
 
 // TODO: Add rotated (triangular?) sphere on top for ergo- adjustment.
 
